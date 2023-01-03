@@ -37,6 +37,8 @@ const logIn = async (req, res, next) => {
     .status(200)
     .cookie("refreshToken", refreshToken, { httpOnly: true })
     .json({
+      name: user.name,
+      email,
       accessToken,
     });
 };

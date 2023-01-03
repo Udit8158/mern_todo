@@ -31,7 +31,7 @@ const register = async (req, res) => {
   res
     .status(200)
     .cookie("refreshToken", refreshToken, { httpOnly: true })
-    .json({ accessToken });
+    .json({ name, email, accessToken });
 };
 
 export default register;
