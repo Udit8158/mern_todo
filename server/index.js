@@ -4,6 +4,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import authRoute from "./routes/auth.js";
+import todoRoute from "./routes/todo.js";
 
 // some usefull things
 dotenv.config(); // using dotenv
@@ -16,7 +17,7 @@ const PORT = process.env.PORT || 4000;
 
 // Routes
 app.use("/api/v1/auth", authRoute);
-
+app.use("/api/v1/todos", todoRoute);
 // DB connection
 mongoose.set("strictQuery", true);
 mongoose
