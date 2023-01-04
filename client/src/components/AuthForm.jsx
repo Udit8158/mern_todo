@@ -4,7 +4,7 @@ import { AuthContext } from "../context/AuthContext";
 
 export default function AuthForm() {
   const [isRegistered, setIsRegistered] = useState(false);
-  const { register } = useContext(AuthContext);
+  const { register, logIn } = useContext(AuthContext);
 
   // ON submit
   const registerUser = (e) => {
@@ -18,8 +18,22 @@ export default function AuthForm() {
 
     register(userInputData);
   };
+
+  const logInUser = (e) => {
+    e.preventDefault();
+
+    const userInputData = {
+      email: e.target[0].value,
+      password: e.target[1].value,
+    };
+
+    logIn(userInputData);
+  };
   return (
-    <form className="flex flex-col gap-3 mt-20" onSubmit={registerUser}>
+    <form
+      className="flex flex-col gap-3 mt-20"
+      onSubmit={isRegistered ? logInUser : registerUser}
+    >
       <h1 className="text-center font-bold text-2xl">
         {isRegistered ? "Log In" : "Register"}
       </h1>

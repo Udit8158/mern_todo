@@ -35,7 +35,12 @@ const logIn = async (req, res, next) => {
   // Send tokens
   res
     .status(200)
-    .cookie("refreshToken", refreshToken, { httpOnly: true })
+    .cookie("refreshToken", refreshToken, {
+      path: "/",
+      httpOnly: true,
+      sameSite: "strict",
+      expires: new Date(new Date().getTime() + 24 * 7 * 60 * 60 * 1000), // 7days
+    })
     .json({
       name: user.name,
       email,

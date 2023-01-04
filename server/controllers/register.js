@@ -30,7 +30,12 @@ const register = async (req, res) => {
 
   res
     .status(200)
-    .cookie("refreshToken", refreshToken, { httpOnly: true })
+    .cookie("refreshToken", refreshToken, {
+      path: "/",
+      httpOnly: true,
+      sameSite: "strict",
+      expires: new Date(new Date().getTime() + 24 * 7 * 60 * 60 * 1000), // 7 days
+    })
     .json({ name, email, accessToken });
 };
 

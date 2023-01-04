@@ -34,10 +34,36 @@ const AuthContextProvider = ({ children }) => {
   };
 
   // Login
-  const loginHandler = () => {};
+  const loginHandler = async (userData) => {
+    try {
+      const res = await axios.post("/api/v1/auth/login", userData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log(res.data);
+      // setting user
+      localStorage.setItem("mern-todo", JSON.stringify({ user: res.data }));
+      setUser(userData);
+      navigate("/");
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   // Refresh
-  const refreshHandler = () => {};
+  const refreshHandler = async () => {
+    try {
+      const res = await axios.get("/api/v1/auth/refresh");
+
+      const updatedUser = { ...user, accessToken: res.data.accessToken };
+      localStorage.setItem("mern-todo", JSON.stringify({ user: updatedUser }));
+      setUser(updatedUser);
+      return res.data.accessToken;
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   // Logout
   const logOutHandler = () => {};
