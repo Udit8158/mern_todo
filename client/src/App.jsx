@@ -15,12 +15,15 @@ function App() {
     async (config) => {
       // console.log("Run interceptor");
       const currDate = new Date();
-      const decodedToken = await jwt_decode(user.accessToken);
-      // console.log("Decoded token: " + decodedToken);
-      if (decodedToken.exp * 1000 < currDate.getTime()) {
-        const newAccessToken = await refresh();
-        // console.log(newAccessToken);
-        config.headers["authorization"] = "Bearer " + newAccessToken;
+      if (user) {
+        const decodedToken = await jwt_decode(user.accessToken);
+        // console.log("Decoded token: " + decodedToken);
+        if (decodedToken.exp * 1000 < currDate.getTime()) {
+          console.log("refresh");
+          const newAccessToken = await refresh();
+          // console.log(newAccessToken);
+          config.headers["authorization"] = "Bearer " + newAccessToken;
+        }
       }
       return config;
     },
@@ -28,13 +31,13 @@ function App() {
   );
 
   return (
-    <>
+    <div className="bg-gradient min-h-screen">
       <Routes>
         {user && <Route path="/" element={<Home />} />}
         {!user && <Route path="/auth" element={<Auth />} />}
         {<Route path="*" element={<Navigate to={user ? "/" : "/auth"} />} />}
       </Routes>
-    </>
+    </div>
   );
 }
 

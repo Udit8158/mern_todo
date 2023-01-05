@@ -31,7 +31,7 @@ export default function AuthForm() {
   };
   return (
     <form
-      className="flex flex-col gap-3 mt-20"
+      className="flex flex-col gap-3 pt-20"
       onSubmit={isRegistered ? logInUser : registerUser}
     >
       <h1 className="text-center font-bold text-2xl">

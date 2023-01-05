@@ -1,4 +1,4 @@
-import axios from "../api/Axios";
+import axios, { axiosAuth } from "../api/Axios";
 import { createContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -25,8 +25,8 @@ const AuthContextProvider = ({ children }) => {
       });
 
       // setting user
+      setUser(() => res.data);
       localStorage.setItem("mern-todo", JSON.stringify({ user: res.data }));
-      setUser(userData);
       navigate("/");
     } catch (e) {
       console.error(e);
@@ -43,8 +43,8 @@ const AuthContextProvider = ({ children }) => {
       });
       console.log(res.data);
       // setting user
+      setUser(res.data);
       localStorage.setItem("mern-todo", JSON.stringify({ user: res.data }));
-      setUser(userData);
       navigate("/");
     } catch (e) {
       console.error(e);
@@ -66,7 +66,20 @@ const AuthContextProvider = ({ children }) => {
   };
 
   // Logout
-  const logOutHandler = () => {};
+  const logOutHandler = async () => {
+    try {
+      await axiosAuth.get("/api/v1/auth/logout", {
+        headers: {
+          authorization: "Bearer " + user.accessToken,
+        },
+      });
+      setUser(null);
+      localStorage.removeItem("mern-todo");
+      navigate("/auth");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <AuthContext.Provider
