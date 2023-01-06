@@ -46,12 +46,12 @@ export default function TodoItem({ title, isCompleted, id }) {
   }, [isEditing]);
 
   // Toggle completed tasks
-  const updateCompletedTask = async (id) => {
+  const updateToggleCompletedTask = async (id) => {
     dispatch(toggleComplete({ id }));
 
     const res = await axiosAuth.patch(
       `http://localhost:4000/api/v1/todos/${id}`,
-      { completed: "true" },
+      { completed: isCompleted ? "false" : "true" },
       {
         headers: {
           Authorization: `Bearer ${user.accessToken}`,
@@ -59,19 +59,19 @@ export default function TodoItem({ title, isCompleted, id }) {
       }
     );
   };
-  const updateNotCompletedTask = async (id) => {
-    dispatch(toggleComplete({ id }));
+  // const updateNotCompletedTask = async (id) => {
+  //   dispatch(toggleComplete({ id }));
 
-    const res = await axiosAuth.patch(
-      `http://localhost:4000/api/v1/todos/${id}`,
-      { completed: "false" },
-      {
-        headers: {
-          Authorization: `Bearer ${user.accessToken}`,
-        },
-      }
-    );
-  };
+  //   const res = await axiosAuth.patch(
+  //     `http://localhost:4000/api/v1/todos/${id}`,
+  //     { completed: "false" },
+  //     {
+  //       headers: {
+  //         Authorization: `Bearer ${user.accessToken}`,
+  //       },
+  //     }
+  //   );
+  // };
 
   // Delete todo
   const deleteTodoItem = async (id) => {
@@ -93,12 +93,12 @@ export default function TodoItem({ title, isCompleted, id }) {
       {isCompleted ? (
         <MdCheckBox
           className="cursor-pointer"
-          onClick={() => updateNotCompletedTask(id)}
+          onClick={() => updateToggleCompletedTask(id)}
         />
       ) : (
         <MdCheckBoxOutlineBlank
           className="cursor-pointer"
-          onClick={() => updateCompletedTask(id)}
+          onClick={() => updateToggleCompletedTask(id)}
         />
       )}
 
