@@ -34,6 +34,11 @@ const todosSlice = createSlice({
         (todo) => todo._id !== action.payload.id
       );
     },
+    editTodo: (state, action) => {
+      state.todos.map((todo) => {
+        if (todo._id === action.payload.id) todo.title = action.payload.title;
+      });
+    },
   },
 });
 
@@ -45,4 +50,5 @@ export const {
   addTodoSuccess,
   toggleComplete,
   deleteTodo,
+  editTodo,
 } = todosSlice.actions;
