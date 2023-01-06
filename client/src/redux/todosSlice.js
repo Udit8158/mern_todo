@@ -13,7 +13,7 @@ const todosSlice = createSlice({
       state.error = false;
     },
     getTodoSuccess: (state, action) => {
-      state.todos = [...state.todos, ...action.payload];
+      state.todos = [...action.payload];
       state.loading = false;
       state.error = false;
     },
